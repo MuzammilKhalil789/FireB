@@ -1,8 +1,10 @@
 import 'package:firebase/views/Auth/Signup.dart';
+import 'package:firebase/views/Auth/home%20screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +66,34 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 30),
-
+isLoading?CircularProgressIndicator():
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context)=>Signup()));
+                onPressed: () async{
+                  isLoading=true;
+                  setState(() {
+
+                  });
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                  Get.snackbar(
+                    'error', // Title of Snackbar
+                    'Please enter email and password', // Message
+                    snackPosition: SnackPosition.TOP, // TOP ya BOTTOM
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 3),
+                    margin: EdgeInsets.all(10),
+                    borderRadius: 10,
+                    icon: Icon(Icons.info, color: Colors.white),
+                    shouldIconPulse: false,
+                  );
+
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text, password: passwordController.text).then((onValue){
+                        isLoading=false;
+                        setState(() {
+
+                        });
+                  });
                   print("Login pressed");
                   print("Email: ${emailController.text}");
                   print("Password: ${passwordController.text}");
@@ -83,11 +110,8 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
 
               OutlinedButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email:         emailController.text,
-            password:      passwordController.text
-                  );
+                onPressed: ()  {
+
                   },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.deepPurple,

@@ -1,8 +1,10 @@
 import 'package:firebase/firebase_options.dart';
 import 'package:firebase/views/Auth/Login.dart';
 import 'package:firebase/views/Auth/Signup.dart';
+import 'package:firebase/views/Auth/home%20screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 
@@ -27,10 +29,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: //Signup(),
-      LoginPage(),
+      home:Signup(),
+      //HomeScreen(),
+      //ignup(),
+      //LoginPage(),
       //LoginScreen(),
     );
   }

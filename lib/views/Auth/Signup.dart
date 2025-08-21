@@ -1,6 +1,9 @@
 import 'package:firebase/views/Auth/Login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -13,6 +16,7 @@ class _SignupState extends State<Signup> {
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
   TextEditingController confirmController=TextEditingController();
+  bool isLoading=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,10 +97,37 @@ class _SignupState extends State<Signup> {
         child: const Text("Login",style: TextStyle(color: Colors.white),),
       ),
       const SizedBox(height: 10),
-
+isLoading?CircularProgressIndicator():
       OutlinedButton(
-        onPressed: ()  {
-       Navigator.push(context, CupertinoPageRoute(builder: (context)=>LoginPage()));
+        onPressed: () async {
+          isLoading=true;
+          setState(() {
+
+          });
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+          Get.snackbar(
+            'error', // Title of Snackbar
+            'Please enter email and password', // Message
+            snackPosition: SnackPosition.TOP, // TOP ya BOTTOM
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            duration: Duration(seconds: 3),
+            margin: EdgeInsets.all(10),
+            borderRadius: 10,
+            icon: Icon(Icons.info, color: Colors.white),
+            shouldIconPulse: false,
+          );
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email:         emailController.text,
+              password:      passwordController.text
+          ).then((onValue){
+         isLoading=false;
+         setState(() {
+
+         });
+
+
+          });
         },
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.deepPurple,
