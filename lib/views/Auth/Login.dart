@@ -14,9 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final formKey=GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isLoading=false;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,91 +29,120 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Welcome Back",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
+              Form(key: formKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Welcome Back",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          prefixIcon: const Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                        ),
+                        validator: (value){
+                          if(value==null || value.isEmpty){
+                            return 'please enter Email';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          prefixIcon: const Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                        ),
+                        validator: (value){
+                          if(value==null || value.isEmpty){
+                            return 'please enter Password';
+                          }
+                          return null;
+                        },
+                      ),
+
+                    ],
+                  ),),
               const SizedBox(height: 30),
+              isLoading
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () async {
+                        isLoading = true;
+                        setState(() {});
 
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              ),
-              const SizedBox(height: 20),
 
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  prefixIcon: const Icon(Icons.lock),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              ),
-              const SizedBox(height: 30),
-isLoading?CircularProgressIndicator():
-              ElevatedButton(
-                onPressed: () async{
-                  isLoading=true;
-                  setState(() {
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((onValue) {
+                          isLoading = false;
+                          setState(() {
 
-                  });
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                  Get.snackbar(
-                    'error', // Title of Snackbar
-                    'Please enter email and password', // Message
-                    snackPosition: SnackPosition.TOP, // TOP ya BOTTOM
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white,
-                    duration: Duration(seconds: 3),
-                    margin: EdgeInsets.all(10),
-                    borderRadius: 10,
-                    icon: Icon(Icons.info, color: Colors.white),
-                    shouldIconPulse: false,
-                  );
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Login screen successfully"),
+                                backgroundColor: Colors.green,)
+                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()));
 
-                  await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: emailController.text, password: passwordController.text).then((onValue){
-                        isLoading=false;
-                        setState(() {
+
+                          setState(() {});
+                        }).onError((error,handleError){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("This email is already used"),
+                                backgroundColor: Colors.green,)
+                          );
+                          isLoading=false;
+                          setState(() {
+
+                          });
 
                         });
-                  });
-                  print("Login pressed");
-                  print("Email: ${emailController.text}");
-                  print("Password: ${passwordController.text}");
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 80,
-                    vertical: 14,
-                  ),
-                ),
-                child: const Text("Login",style: TextStyle(color: Colors.white),),
-              ),
+                        if(formKey.currentState!.validate());
+
+                        print("Login pressed");
+                        print("Email: ${emailController.text}");
+                        print("Password: ${passwordController.text}");
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 80,
+                          vertical: 14,
+                        ),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
               const SizedBox(height: 10),
-
               OutlinedButton(
-                onPressed: ()  {
-
-                  },
+                onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.deepPurple,
                   side: const BorderSide(color: Colors.deepPurple),

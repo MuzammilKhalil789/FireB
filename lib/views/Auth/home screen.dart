@@ -5,6 +5,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffD8D3F5),
       // Gradient background
       body: Container(
         decoration: BoxDecoration(
@@ -86,7 +87,8 @@ class HomeScreen extends StatelessWidget {
                         label: Text('My Profile'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -96,14 +98,18 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 12),
                       OutlinedButton.icon(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
                         },
                         icon: Icon(Icons.logout),
                         label: Text('Logout'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.blueAccent,
                           side: BorderSide(color: Colors.blueAccent),
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
