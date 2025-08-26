@@ -17,6 +17,9 @@ class _SignupState extends State<Signup> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
+  bool _isValidEmail(String email){
+    return RegExp(r"^[\w-\.]+@([\w-]+[\w-]{2,4}$").hasMatch(email);
+  }
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -53,6 +56,12 @@ class _SignupState extends State<Signup> {
                       if(value==null || value.isEmpty){
                         return 'please enter Email';
                       }
+                      else if(
+                      !_isValidEmail(value)
+                      ){
+                        return "Invalid Email";
+                      }
+
                       return null;
                     },
                   ),
@@ -73,6 +82,11 @@ class _SignupState extends State<Signup> {
                       if(value==null || value.isEmpty){
                         return 'please enter password';
                       }
+                      else if(value.length<=7)
+                      {
+                        return 'Password must be at least 8 characters';
+                      }
+
                       return null;
                     },
                   ),
@@ -93,6 +107,7 @@ class _SignupState extends State<Signup> {
                       if(value==null || value.isEmpty){
                         return 'please enter confirmpassword';
                       }
+
                       return null;
                     },
 
