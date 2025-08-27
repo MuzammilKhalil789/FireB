@@ -2,6 +2,7 @@ import 'package:firebase/firebase_options.dart';
 import 'package:firebase/views/Auth/Login.dart';
 import 'package:firebase/views/Auth/Signup.dart';
 import 'package:firebase/views/Auth/home%20screen.dart';
+import 'package:firebase/views/firebasefirestore/Fetch.dart';
 import 'package:firebase/views/firebasefirestore/Insert.dart';
 import 'package:firebase/views/firebasefirestore/Loginui.dart';
 import 'package:firebase/views/weather/weath1.dart';
@@ -26,8 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home://AdmissionFormScreen(),
-       LoginPage1(),
+      home://Fetch(),
+      AdmissionFormScreen(),
+      // LoginPage1(),
       //WeatherHomeScreen(),
       //Signup(),
     );

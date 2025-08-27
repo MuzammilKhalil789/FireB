@@ -115,11 +115,14 @@ class _AdmissionFormScreenState extends State<AdmissionFormScreen> {
                       :
                   TextButton(
                     onPressed: () async{
+                      String id=DateTime.now().microsecond.toString();
                       isLoading=true;
                       setState(() {
 
                       });
-                      await FirebaseFirestore.instance.collection('student data').add({
+                      await FirebaseFirestore.instance.collection('student data').doc(
+                        id
+                      ).set({
                         'name':nameController.text,
                         'fname':fnameController.text,
                         'email':emailController.text,
@@ -127,30 +130,31 @@ class _AdmissionFormScreenState extends State<AdmissionFormScreen> {
                         'gender':genderController.text,
                         'dob':dobController.text,
                         'address':addressController.text,
+                        'id':id,
 
-                      }
-                      )
-                      .then((onValue) {
-                      isLoading = false;
-                      setState(() {
 
-                      });
+                      }) .then((onValue) {
+                        isLoading = false;
+                        setState(() {
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Admission form Success fully"),
-                      backgroundColor: Colors.green,)
-                      );
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=>Fetch()));
-                      setState(() {});
+                        });
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Fetch()));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Admission Form successfully"),
+                              backgroundColor: Colors.green,)
+                        );
+
+                        setState(() {});
                       }).onError((error,handleError){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Please enter TextFormField'),
-                      backgroundColor: Colors.red,)
-                      );
-                      isLoading=false;
-                      setState(() {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("please enter value"),
+                              backgroundColor: Colors.red,)
+                        );
+                        isLoading=false;
+                        setState(() {
 
-                      });
+                        });
 
                       });
                       if (_formKey.currentState!.validate()) ;
