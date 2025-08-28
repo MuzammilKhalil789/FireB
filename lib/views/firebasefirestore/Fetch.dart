@@ -16,13 +16,18 @@ floatingActionButton: FloatingActionButton(onPressed: (){
   Navigator.push(context, MaterialPageRoute(builder: (context)=>AdmissionFormScreen()));
 }
   ,backgroundColor:Colors.black ,child: Icon(Icons.refresh,color: Colors.orange,),),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffc3abc7),
       appBar: AppBar(
-        title: Text('Fetch Screen',style: TextStyle(color: Color(0xFF9C27B0)),),
+        title: Text('Fetch Screen',style: TextStyle(color: Color(0xFF9C27B0),fontSize: 30),),
         centerTitle: true,
       ),
       body: StreamBuilder(stream: FirebaseFirestore.instance.collection('student data').snapshots(),
           builder:(context,snapshot){
+        if (!snapshot.hasData|| snapshot.data!.docs.isEmpty){
+          return Center(
+            child:Image.asset('assets/nodata.jpg', width: 600),
+          );
+        }
         return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (
@@ -62,10 +67,12 @@ floatingActionButton: FloatingActionButton(onPressed: (){
                         Text(snapshot.data!.docs[index]['address']),
                       ],
                     ),
-                  trailing: Text(snapshot.data!.docs[index]['id']),
-                
-                ),
+                  trailing:  Text(snapshot.data!.docs[index]['id'])
+              ),
               );
+                
+
+
             });
           }
 

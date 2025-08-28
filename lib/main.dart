@@ -5,6 +5,7 @@ import 'package:firebase/views/Auth/home%20screen.dart';
 import 'package:firebase/views/firebasefirestore/Fetch.dart';
 import 'package:firebase/views/firebasefirestore/Insert.dart';
 import 'package:firebase/views/firebasefirestore/Loginui.dart';
+import 'package:firebase/views/firebasefirestore/splash%20screen.dart';
 import 'package:firebase/views/weather/weath1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home://Fetch(),
-      AdmissionFormScreen(),
-      // LoginPage1(),
+      home:Splashscreen(),
+      //Fetch(),
+      //AdmissionFormScreen(),
+       //LoginPage1(),
       //WeatherHomeScreen(),
       //Signup(),
     );

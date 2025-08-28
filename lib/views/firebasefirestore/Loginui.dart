@@ -115,7 +115,7 @@ class _LoginPage1State extends State<LoginPage1> {
 
                             });
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>AdmissionFormScreen()));
-                           
+
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Sign up screen successfully"),
                                   backgroundColor: Colors.green,)
@@ -124,7 +124,7 @@ class _LoginPage1State extends State<LoginPage1> {
                             setState(() {});
                           }).onError((error,handleError){
                             ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("This email is already used"),
+                                SnackBar(content: Text("Please correct email"),
                                   backgroundColor: Colors.red,)
                             );
                             isLoading=false;
